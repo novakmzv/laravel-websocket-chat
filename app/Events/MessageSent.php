@@ -23,7 +23,7 @@ class MessageSent implements ShouldBroadcast
     {
         $this->message = $message;
         $this->user = $user;
-        $this->timestamp = now();
+        $this->timestamp = now()->toDateTimeString();
     }
 
     /**
