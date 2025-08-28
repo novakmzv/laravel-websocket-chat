@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChatMessageRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,9 +15,9 @@ class ChatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Factory|View
     {
-        //
+        return view('chat.index');
     }
 
     /**
