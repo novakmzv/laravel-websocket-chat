@@ -17,10 +17,14 @@
     </div>
 
     <form id="chat-form" class="flex gap-2">
-        <input type="text" id="user" placeholder="Tu nombre"
-               class="px-4 py-2 border rounded-lg flex-shrink-0 w-32">
-        <input type="text" id="message" placeholder="Escribe tu mensaje..."
-               class="px-4 py-2 border rounded-lg flex-1">
+        <input
+            autocomplete="off"
+            type="text" id="user" placeholder="Tu nombre"
+            class="px-4 py-2 border rounded-lg flex-shrink-0 w-32">
+        <input
+            autocomplete="off"
+            type="text" id="message" placeholder="Escribe tu mensaje..."
+            class="px-4 py-2 border rounded-lg flex-1">
         <button type="submit"
                 class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
             Enviar
