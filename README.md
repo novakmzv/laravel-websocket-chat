@@ -1,61 +1,144 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Chat en Tiempo Real con Laravel y Pusher 🚀
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Una aplicación de chat en tiempo real construida con Laravel 12, Pusher WebSockets y Tailwind CSS que permite conversaciones instantáneas entre múltiples usuarios.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologías Utilizadas 🔧
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Backend**: Laravel 12, PHP 8.4+
+- **Frontend**: Blade Templates, Tailwind CSS, JavaScript vanilla
+- **WebSockets**: Pusher Channels
+- **Procesamiento**: Sistema de colas de Laravel
+- **Build Tools**: Vite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requisitos Previos 📝
 
-## Learning Laravel
+- PHP 8.4+ (probado con PHP 8.4.8)
+- Composer 2.8+ (probado con Composer 2.8.9)
+- Node.js 20.19+ o superior
+- MySQL
+- Cuenta gratuita en [Pusher](https://pusher.com)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación 📦️
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/novakmzv/laravel-websocket-chat.git
+cd laravel-websocket-chat
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Instalar dependencias
+```bash
+# Dependencias de PHP
+composer install
 
-## Laravel Sponsors
+# Dependencias de Node.js
+npm install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Configurar entorno
+```bash
+# Copiar archivo de configuración
+cp .env.example .env
 
-### Premium Partners
+# Generar clave de aplicación
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 4. Configurar base de datos
+Edita el archivo `.env` con tus credenciales de MySQL:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_websocket_chat
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Contributing
+Crear la base de datos y ejecutar migraciones:
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Configurar Pusher
+1. Crea una cuenta en [Pusher](https://pusher.com)
+2. Crea una nueva aplicación de tipo "Channels"
+3. Copia las credenciales a tu archivo `.env`:
 
-## Code of Conduct
+```env
+BROADCAST_CONNECTION=pusher
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+PUSHER_APP_ID=tu_app_id
+PUSHER_APP_KEY=tu_key
+PUSHER_APP_SECRET=tu_secret
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+PUSHER_APP_CLUSTER=tu_cluster
 
-## Security Vulnerabilities
+VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+VITE_PUSHER_HOST="${PUSHER_HOST}"
+VITE_PUSHER_PORT="${PUSHER_PORT}"
+VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Ejecutar la Aplicación ⚡️
 
-## License
+**Necesitas 3 terminales abiertas simultáneamente:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Terminal 1 - Servidor Laravel
+```bash
+php artisan serve
+```
+
+### Terminal 2 - Procesador de Colas
+```bash
+php artisan queue:work
+```
+
+### Terminal 3 - Servidor de Desarrollo (Vite)
+```bash
+npm run dev
+```
+
+## Uso 🧪
+
+1. Abre tu navegador en `http://localhost:8000/chat`
+2. Para probar el tiempo real, abre múltiples pestañas/ventanas con la misma URL
+3. Ingresa tu nombre y mensaje
+4. Los mensajes aparecerán instantáneamente en todas las pestañas abiertas
+
+## Estructura del Proyecto 🧱
+
+```
+app/
+├── Events/
+│   └── MessageSent.php          # Evento de mensaje enviado
+├── Http/
+│   ├── Controllers/Api/
+│   │   └── ChatController.php   # Controlador API del chat
+│   └── Requests/
+│       └── StoreChatMessageRequest.php  # Validación de mensajes
+resources/
+├── views/
+│   └── chat/
+│       └── index.blade.php      # Vista principal del chat
+└── js/
+    ├── app.js                   # Aplicación principal
+    ├── bootstrap.js             # Configuración base
+    └── echo.js                  # Configuración de Echo/Pusher
+routes/
+├── api.php                      # Rutas API
+└── web.php                      # Rutas web
+```
+
+
+## Contribución 🧑‍💻
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
